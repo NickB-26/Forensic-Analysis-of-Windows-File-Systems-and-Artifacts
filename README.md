@@ -60,7 +60,7 @@ This project covers five exercises built around three core artifacts, following 
   <em>Figure 1: FTK Imager 4.7 download page</em>
 </p>
 
-2. **Install FTK Imager** — InstallShield wizard, default install path (`C:\Program Files\AccessData`). The "Add Installation File path in Windows Defender Exclusion List" option is ticked by default — I left it on because Defender has a habit of interfering with imaging.
+2. **Install FTK Imager** — InstallShield wizard, default installation path (`C:\Program Files\AccessData`). The "Add Installation File path in Windows Defender Exclusion List" option is ticked by default — I left it on because Defender has a habit of interfering with imaging.
 
 <p align="center">
   <img src="https://github.com/user-attachments/assets/70871bc9-5eb7-499c-bd33-cb244ad54f39" alt="FTK Imager installation path" width="700"><br>
@@ -72,31 +72,25 @@ This project covers five exercises built around three core artifacts, following 
 3. **Create the disk image** — **File → Create Disk Image**, picked **Physical Drive** as the source, then the `C:\` partition. For the output I went with **E01** (compressed, splittable, stores hashes inside the image).
 
 <p align="center">
-  <img src="https://github.com/user-attachments/assets/70199ccc-7ff4-40c1-8ffd-0b76b1aca55" alt="FTK Imager Select Image Destination dialog with C partition image filename" width="700"><br>
-  <em>Figure 3: Setting the destination, fragment size (1500 MB), and compression level (6)</em>
+  <img src="https://github.com/user-attachments/assets/e34ba595-1460-4bf9-b11e-74bcf173bffa" alt="FTK Imager Select Image Destination dialog with C partition image filename" width="700"><br>
+  <em>Figure 3: Starting aquisition</em>
 </p>
 
 
 
-4. **Start the acquisition** — FTK Imager streams the source drive to the destination in 1500 MB chunks and shows the elapsed time as it goes.
-
-<p align="center">
-  <img src="https://github.com/user-attachments/assets/f4ef6a8a-6c37-483d1-8d52-d84604d2f1e" alt="Starting the aquisition with FTK Imager" width="700"><br>
-  <em>Figure 4: Image in progress — source <code>C:\</code> → destination <code>E:\</code> (removable USB)</em>
-</p>
 
 
-5. **Verify the image** — When the image finishes, FTK Imager automatically re-reads the output, computes MD5 and SHA1, and compares them against the hashes it stored during acquisition. Got a **Match** on both with no bad blocks, which is what you want to see.
+4. **Verify the image** — When the image finishes, FTK Imager automatically re-reads the output, computes MD5 and SHA1, and compares them against the hashes it stored during acquisition. Got a **Match** on both with no bad blocks, which is what you want to see.
 
 <p align="center">
   <img src="https://github.com/user-attachments/assets/0be1e22f-5217-4a0f-8e61-9539d9289c56" alt="FTK Imager Drive Image Verify Results showing matching MD5 and SHA1 hashes" width="700"><br>
-  <em>Figure 5: Verification — MD5 and SHA1 both match, no bad blocks</em>
+  <em>Figure 4: Verification — MD5 and SHA1 both match, no bad blocks</em>
 </p>
 
 
 **Expected Output:** A verified E01 image with matching hashes.
 
-> 💡 **Note:** I imaged to `E:\` first because of the disk-space situation, then copied the E01 across to `D:\Project 3\C disk image\` before starting analysis. The hashes are stored inside the E01, so verification against the original acquisition hashes still works after the copy.
+> 💡 **Note:** I imaged to `E:\` (removable disk) first because I was running out of disk space but cleared enough disk space eventually therefore I copied the E01 across to `D:\Project 3\C disk image\` before starting analysis so I don't run it from USB. The hashes are stored inside the E01, so verification against the original acquisition hashes still worked after being copied.
 
 ---
 
@@ -110,7 +104,7 @@ This project covers five exercises built around three core artifacts, following 
 
 <p align="center">
   <img src="https://github.com/user-attachments/assets/2d027803-ee82-4ba4-9367-f152a21cf0e2" alt="Autopsy Setup Select Installation Folder dialog" width="700"><br>
-  <em>Figure 6: Installing Autopsy 4.23.1</em>
+  <em>Figure 5: Installing Autopsy 4.23.1</em>
 </p>
 
 
@@ -118,7 +112,7 @@ This project covers five exercises built around three core artifacts, following 
 
 <p align="center">
   <img src="https://github.com/user-attachments/assets/e60ab597-aa77-4651-8d54-48db995c4bdd" alt="Autopsy New Case Information dialog" width="700"><br>
-  <em>Figure 7: New case setup</em>
+  <em>Figure 6: New case setup</em>
 </p>
 
 
@@ -126,42 +120,47 @@ This project covers five exercises built around three core artifacts, following 
 
 <p align="center">
   <img src="https://github.com/user-attachments/assets/357c3bf4-0f40-4899-bccb-d9e308a2e5e4" alt="Autopsy Add Data Source Select Host dialog" width="700"><br>
-  <em>Figure 8: Host selection</em>
+  <em>Figure 7: Host selection</em>
 </p>
 
-
-
-4. **Add the E01 as a data source** — Pointed it at `D:\Project 3\C disk image\C partition image.E01` (the copy I'd moved over from the USB). Time zone set to `(GMT+0:00) Europe/London`, sector size on **Auto Detect**.
-
-<p align="center">
-  <img src="" alt="Autopsy Select Data Source dialog with E01 image path" width="700"><br>
-  <em>Figure 9: Pointing Autopsy at the E01</em>
-</p>
-
-5. **Configure ingest modules** — Left most of the defaults on. **Recent Activity**, **Hash Lookup**, **File Type Identification**, **Extension Mismatch Detector**, and **Encryption Detection** are the ones I particularly wanted. Skipped **Keyword Search** since I had no specific terms in mind.
+4. **Configure ingest modules** — Left most of the defaults on. **Recent Activity**, **Hash Lookup**, **File Type Identification**, **Extension Mismatch Detector**, and **Encryption Detection** are the ones I particularly wanted. Skipped **Keyword Search** since I had no specific terms in mind.
 
 <p align="center">
   <img src="https://github.com/user-attachments/assets/b929572f-2ef8-4f29-8ff1-740bb1069674" alt="Autopsy Configure Ingest dialog with default ingest modules selected" width="700"><br>
-  <em>Figure 10: Ingest module selection</em>
+  <em>Figure 8: Ingest module selection</em>
 </p>
 
 
 
-6. **Wait for ingest** — Autopsy goes through every file on the image, builds its database, and runs the modules. On a full system image this takes a while.
+
+5. **Wait for ingest** — Autopsy goes through every file on the image, builds its database, and runs the modules. On a full system image this takes a while.
+
 
 <p align="center">
-  <img src="" alt="Autopsy Add Data Source progress showing ingest in progress" width="700"><br>
-  <em>Figure 11: Ingest in progress</em>
+  <img src="https://github.com/user-attachments/assets/b303305f-2c69-4f56-9bd1-0b8dd0d26384" alt="Autopsy Select Data Source dialog with E01 image path" width="700"><br>
+  <em>Figure 9: Ingest in progress</em>
 </p>
 
-7. **Navigate the file system** — Once ingest is done, the tree on the left shows the whole Windows directory structure. The folders I was most interested in were `Users\` (per-user data, registry hives, browser stuff), `Windows\System32\config\` (system registry), `Windows\Prefetch`, and `$Recycle.Bin`.
 
-8. **Check Installed Programs** — Under **Data Artifacts → Installed Programs**, Autopsy lists software pulled from the registry. Quick way to confirm the OS build and see what's on the box.
+6. **Navigate the file system** — Once ingest is done, the tree on the left shows the whole Windows directory structure. The folders I was most interested in were `Users\` (per-user data, registry hives, browser stuff), `Windows\System32\config\` (system registry), `Windows\Prefetch`, and `$Recycle.Bin`.
 
 <p align="center">
-  <img src="" alt="Autopsy Installed Programs view showing Windows 10 Pro and installed software" width="700"><br>
-  <em>Figure 12: Installed Programs view — confirms the OS build and installed software</em>
+  <img src="https://github.com/user-attachments/assets/24323c77-e414-4771-805f-ac464696c74d" alt="Autopsy Installed Programs view showing Windows 10 Pro and installed software" width="700"><br>
+  <em>Figure 10: Installed Programs view </em>
 </p>
+
+
+
+
+7. **Check Installed Programs** — Under **C partition image  → Program Files**, Autopsy lists software pulled from the registry. Quick way to confirm the OS build and see what's on the box.
+
+<p align="center">
+  <img src="https://github.com/user-attachments/assets/d961bba5-01f7-4953-8364-b571a045152c" alt="Autopsy Installed Programs view showing Windows 10 Pro and installed software" width="700"><br>
+  <em>Figure 11: Installed Programs view — confirms the OS build and installed software</em>
+</p>
+
+
+
 
 **Expected Output:** A navigable file system in Autopsy, with key directories identifiable and ingest artifacts populated.
 
@@ -175,18 +174,21 @@ This project covers five exercises built around three core artifacts, following 
 
 **Steps:**
 
-1. **Locate and extract `$MFT`** — In Autopsy I navigated to the root of the NTFS volume. `$MFT` sits alongside the other NTFS metadata files (`$Boot`, `$LogFile`, `$Bitmap` etc.). Right-click → **Extract File(s)** → saved to `D:\Project 3\MFT`. Got a "File(s) extracted" confirmation.
+1. **Locate and extract `$MFT`** — In Autopsy I navigated to the root of the NTFS volume. `$MFT` sits alongside the other NTFS metadata files (`$Boot`, `$LogFile`, `$Bitmap` etc.). Right-click → **Extract File(s)** → saved to `D:\Project 3\MFT`.
 
 <p align="center">
-  <img src="" alt="Autopsy file system view with $MFT highlighted and File(s) extracted confirmation" width="700"><br>
-  <em>Figure 13: Extracting <code>$MFT</code> from the NTFS root</em>
+  <img src="https://github.com/user-attachments/assets/61b9ba44-045b-4f79-b11c-98c2f64988f1" alt="Autopsy file system view with $MFT highlighted and File(s) extracted confirmation" width="700"><br>
+  <em>Figure 12: Extracting <code>$MFT</code> from the NTFS root</em>
 </p>
+
+
+
 
 2. **Download MFTECmd** — From Eric Zimmerman's tools page at [ericzimmerman.github.io](https://ericzimmerman.github.io). Timeline Explorer is on the same page so I grabbed that too while I was there.
 
 <p align="center">
   <img src="https://github.com/user-attachments/assets/5809a6b6-418b-4089-967c-6b086a561f82" alt="Eric Zimmerman tools page showing MFTECmd in the forensic tools list" width="700"><br>
-  <em>Figure 14: MFTECmd on Eric Zimmerman's tools page</em>
+  <em>Figure 13: MFTECmd on Eric Zimmerman's tools page</em>
 </p>
 
 
@@ -198,7 +200,7 @@ This project covers five exercises built around three core artifacts, following 
 
 <p align="center">
   <img src="https://github.com/user-attachments/assets/16b5fb8f-fca7-411d-b80c-dfe57d54908f" alt="MFTECmd successful parse output showing 258,742 FILE records found in 25.6 seconds" width="700"><br>
-  <em>Figure 15: 258,742 FILE records, 256,344 free, parsed in 25.6 seconds</em>
+  <em>Figure 14: 258,742 FILE records, 256,344 free, parsed in 25.6 seconds</em>
 </p>
 
    The output is a timestamped CSV (`20260518152406_MFTECmd_$MFT_Output.csv`) with one row per MFT record. Each row has the four NTFS timestamps (`$STANDARD_INFORMATION` created/modified, `$FILE_NAME` created/modified), parent path, file size, and attribute flags.
@@ -210,7 +212,7 @@ This project covers five exercises built around three core artifacts, following 
 
 <p align="center">
   <img src="https://github.com/user-attachments/assets/a42cb683-bc1a-4b5e-a53f-419c9ee73ccf" alt="Timeline Explorer showing filtered MFT output with executables under Python and Downloads paths" width="700"><br>
-  <em>Figure 16: Filtered down to executables under the Python install paths and the user's Downloads folder</em>
+  <em>Figure 15: Filtered down to executables under the Python install paths and the user's Downloads folder</em>
 </p>
 
 6. **Review the timeline** — A few things jumped out from the filtered view:
@@ -221,7 +223,7 @@ This project covers five exercises built around three core artifacts, following 
 
 <p align="center">
   <img src="https://github.com/user-attachments/assets/6d2dbfe3-5fb4-4813-ac36-73a639aecac1" alt="Timeline Explorer view scrolled to show File Name, Extension, and timestamp columns" width="700"><br>
-  <em>Figure 17: Same view scrolled across — file names, sizes, and all four MFT timestamps</em>
+  <em>Figure 16: Same view scrolled across — file names, sizes, and all four MFT timestamps</em>
 </p>
 
 **Expected Output:** A parsed CSV of every MFT record on the volume, filterable in Timeline Explorer.
@@ -242,16 +244,16 @@ This project covers five exercises built around three core artifacts, following 
 
 <p align="center">
   <img src="https://github.com/user-attachments/assets/09684c48-7e5c-44b5-947a-390b544ce903" alt="Autopsy Save dialog targeting the Prefetch folder" width="700"><br>
-  <em>Figure 18: Extracting the Prefetch folder — 440 entries</em>
+  <em>Figure 17: Extracting the Prefetch folder — 440 entries</em>
 </p>
 
 
 
-2. **Try Windows File Analyzer (as the brief asks)** — The project brief says to use WFA, so I downloaded it from [mitec.cz/wfa.html](https://www.mitec.cz/wfa.html) and pointed it at the extracted folder. It came back with **"Prefetch is disabled on this machine."**
+2. **Windows File Analyzer** — Initially, I wanted to use WFA to visualize the extracted files. I've downloaded it from [mitec.cz/wfa.html](https://www.mitec.cz/wfa.html) and pointed it at the extracted folder. It came back with **"Prefetch is disabled on this machine."**
 
 <p align="center">
   <img src="https://github.com/user-attachments/assets/831b0c25-79bb-4313-bea9-5bd5ba54c8b3" alt="Windows File Analyzer warning dialog stating Prefetch is disabled on this machine" width="700"><br>
-  <em>Figure 19: WFA insisting Prefetch is disabled — it isn't</em>
+  <em>Figure 18: WFA insisting Prefetch is disabled — it isn't</em>
 </p>
 
 
@@ -261,7 +263,7 @@ This project covers five exercises built around three core artifacts, following 
 
 <p align="center">
   <img src="https://github.com/user-attachments/assets/a6b0a63b-1728-42b0-966c-6e1c542964ca" alt="Eric Zimmerman forensic tools page with PECmd row highlighted" width="700"><br>
-  <em>Figure 20: PECmd on the tools page</em>
+  <em>Figure 19: PECmd on the tools page</em>
 </p>
 
 
@@ -274,7 +276,7 @@ This project covers five exercises built around three core artifacts, following 
 
 <p align="center">
   <img src="https://github.com/user-attachments/assets/a16ecf08-bada-463e-acb6-d0b118c41240" alt="PECmd command line output showing 414 of 432 files parsed successfully in 26.4 seconds with failed files listed" width="700"><br>
-  <em>Figure 21: 414 of 432 files parsed in 26.4 seconds; 18 failures listed</em>
+  <em>Figure 20: 414 of 432 files parsed in 26.4 seconds; 18 failures listed</em>
 </p>
 
    PECmd got 414 of the 432 files. The 18 that failed were mostly Git temp files (`GIT-2.54.0-ARM64.TMP-*.pf`, `GIT-BASH.EXE-*.pf`), plus a couple of others — `CYGWIN-CONSOLE-HELPER.EXE`, `MOUSOCOREWORKER.EXE`, `RUNTIMEBROKER.EXE`, and two `SVCHOST` entries flagged as corrupt. The error message — `Invalid signature! Should be 'SCCA'` — means those files don't start with the SCCA/MAM magic bytes that a real Prefetch file should. Either they're corrupt, or they're not actually Prefetch files at all (more likely for the Git temp ones).
@@ -283,7 +285,7 @@ This project covers five exercises built around three core artifacts, following 
 
 <p align="center">
   <img src="https://github.com/user-attachments/assets/c44bd514-4365-4034-b527-332f283449a7" alt="Timeline Explorer showing parsed Prefetch CSV sorted by Run Count, with both MFT and Prefetch tabs visible" width="700"><br>
-  <em>Figure 22: Prefetch sorted by Run Count descending — the MFT tab from Exercise 3 is still open alongside</em>
+  <em>Figure 21: Prefetch sorted by Run Count descending — the MFT tab from Exercise 3 is still open alongside</em>
 </p>
 
 
@@ -334,7 +336,7 @@ This project covers five exercises built around three core artifacts, following 
 
 <p align="center">
   <img src="https://github.com/user-attachments/assets/a20d7f7b-d7c1-491a-98fb-2d5b8aa5c200" alt="Autopsy Save dialog showing extracted NTUSER.DAT, UsrClass.dat and their log files for the nyco8 user" width="700"><br>
-  <em>Figure 23: Extracting <code>NTUSER.DAT</code>, <code>UsrClass.dat</code>, and the transaction logs for <code>nyco8</code></em>
+  <em>Figure 22: Extracting <code>NTUSER.DAT</code>, <code>UsrClass.dat</code>, and the transaction logs for <code>nyco8</code></em>
 </p>
 
 
@@ -360,7 +362,7 @@ This project covers five exercises built around three core artifacts, following 
 
 <p align="center">
   <img src="https://github.com/user-attachments/assets/e1f8843f-72e3-46a1-aa38-00235ec583ac" alt="SBECmd command line output showing 73 Shellbags found for nyco8" width="700"><br>
-  <em>Figure 24: SBECmd output — 73 Shellbags for <code>nyco8</code></em>
+  <em>Figure 23: SBECmd output — 73 Shellbags for <code>nyco8</code></em>
 </p>
 
 
@@ -368,12 +370,12 @@ This project covers five exercises built around three core artifacts, following 
 
 <p align="center">
   <img src="https://github.com/user-attachments/assets/ae56a025-3142-4f9f-a54d-5f06529f5701" alt="SBECmd command line output showing 73 Shellbags found for nyco8, showing no of directories and file types" width="700"><br>
-  <em>Figure 25: SBECmd output — 73 Shellbags for <code>nyco8</code>, 0 for <code>WsiAccount</code></em>
+  <em>Figure 24: SBECmd output — 73 Shellbags for <code>nyco8</code></em>
 </p>
 
 <p align="center">
   <img src="https://github.com/user-attachments/assets/bb8dffe7-776b-410a-99dd-af759e2ba4b9" alt="SBECmd command line output showing 73 Shellbags found for nyco8, showing no of directories and file types" width="700"><br>
-  <em>Figure 26: SBECmd output — 0 Shellbags for <code>WsiAccount</code></em>
+  <em>Figure 25: SBECmd output — 0 Shellbags for <code>WsiAccount</code></em>
 </p>
 
 
@@ -381,13 +383,13 @@ This project covers five exercises built around three core artifacts, following 
    - **`nyco8`** — 73 Shellbags in `UsrClass.dat`, 0 in `NTUSER.DAT`. That split is normal on Windows 10/11; the action is all in `UsrClass`.
    - **`WsiAccount`** — 0 in either hive.
 
-   Zero Shellbags for `WsiAccount` is itself a finding. It means that account has never opened a folder in Windows Explorer. Combined with what I saw in the MFT (the account only ever appeared launching OS components), I think it's safe to call `WsiAccount` a non-interactive system account rather than a person. In a real case, that's the kind of thing that lets you cross an account off the "investigate further" list.
+   0 Shellbags for `WsiAccount` is itself a finding. It means that account has never opened a folder in Windows Explorer. Combined with what I saw in the MFT (the account only ever appeared launching OS components), I think it's safe to call `WsiAccount` a non-interactive system account rather than a person. In a real case, that's the kind of thing that lets you cross an account off the "investigate further" list.
 
 5. **Look at `nyco8`'s Shellbags in Timeline Explorer** — Opened `D:\Project 3\Shellbags\parsed\nyco8\UsrClass.csv` and sorted by **LastInteracted** descending.
 
 <p align="center">
   <img src="https://github.com/user-attachments/assets/65bf9593-b518-44ad-9585-7063ec0cf94e" alt="Timeline Explorer showing nyco8 Shellbags sorted by Last Interacted with paths to project folders" width="700"><br>
-  <em>Figure 27: <code>nyco8</code>'s Shellbags, sorted by Last Interacted descending</em>
+  <em>Figure 26: <code>nyco8</code>'s Shellbags, sorted by Last Interacted descending</em>
 </p>
 
 
@@ -442,9 +444,9 @@ This project covers five exercises built around three core artifacts, following 
 ### Challenges & how I overcame them
 - **Ran out of local disk space during imaging.** The `C:\` image was bigger than the free space I had on my internal drives, so I imaged straight to a USB disk (`E:`) and copied the E01 over to `D:\` afterwards. The hashes are stored inside the E01, so verification in Autopsy still works against the original acquisition hashes — but it's an extra step that wouldn't happen on a properly provisioned forensic workstation. **Lesson:** check disk space before you start, and aim for at least 2× the source size free on a dedicated drive.
 - **MFTECmd failed with a file lock error on the first run.** First attempt threw `System.IO.IOException: The process cannot access the file because another process has locked a portion of the file` partway through writing the CSV. The `$MFT` itself was fine — it was the output CSV that was locked, because OneDrive was syncing the folder MFTECmd was writing to. Moved the output to a path on `D:\` that isn't OneDrive-synced, re-ran, and it finished cleanly in 25.6 seconds with all 258,742 records. **Lesson:** keep working directories off OneDrive entirely. Cloud sync and forensic tooling don't mix.
-- **Excel is the wrong tool for MFT output.** First instinct was to open the CSV in Excel. It choked on the row count, and on top of that it silently reformatted the timestamp columns to a US locale so sorting didn't work properly. Timeline Explorer is built for Zimmerman output and handled the same file instantly. Wasted about ten minutes thinking the data was wrong when it was just the display.
-- **WFA can't read modern Prefetch.** The brief says use WFA, but WFA told me "Prefetch is disabled on this machine" on a system that clearly has Prefetch enabled (440 `.pf` files extracted from the image). WFA hasn't been updated since around 2010, before Windows 10 introduced the compressed Prefetch format. Rather than try to make it work, I switched to PECmd — actively maintained, handles the modern format, and produces CSVs Timeline Explorer reads natively. PECmd parsed 414 of 432 files in 26 seconds. **Lesson:** the tool a brief names isn't always the right tool — check it works on the actual artifact format before committing time to it.
-- **Some `.pf` files won't parse and that's normal.** PECmd flagged 18 files as `Invalid signature! Should be 'SCCA'`. SCCA is the magic bytes at the start of a valid Prefetch file. Files that fail this are either corrupt entries (two `SVCHOST` files PECmd called "corrupt and did not parse completely") or files that share the `.pf` extension but aren't actually Prefetch — most of the failures here were Git temp files. Worth flagging in a report rather than ignoring; corrupt Prefetch occasionally points at anti-forensics activity (an attacker wiping their tracks).
+- **Excel is the wrong tool for MFT output.** First instinct was to open the CSV in Excel. It choked on the row count. Timeline Explorer is much better and handled the same file instantly. Wasted about ten minutes thinking the data was wrong when it was just the display.
+- **WFA can't read modern Prefetch.** The brief says use WFA, but WFA told me "Prefetch is disabled on this machine" on a system that clearly has Prefetch enabled (440 `.pf` files extracted from the image). WFA hasn't been updated in a long time. I switched to PECmd — actively maintained, handles the modern format, and produces CSVs Timeline Explorer reads natively. PECmd parsed 414 of 432 files in 26 seconds. **Lesson:** Check if a tool works on the actual artifact format before committing time to it.
+- **Some `.pf` files won't parse and that's normal.** PECmd flagged 18 files as `Invalid signature! Should be 'SCCA'`(the magic bytes at the start of a valid Prefetch file). Files that fail this are either corrupt entries (two `SVCHOST` files PECmd called "corrupt and did not parse completely") or files that share the `.pf` extension but aren't actually Prefetch. Worth flagging in a report rather than ignoring; corrupt Prefetch occasionally points at anti-forensics activity (an attacker wiping their tracks).
 - **SBECmd doesn't have a single-file mode.** I assumed it would, like MFTECmd and PECmd do (`-f`). Got "Unrecognized command or argument" on my first few attempts. Turns out SBECmd only accepts `-d` (directory of hives) or `-l` (live registry) — there's no way to point it at a single file. Workaround was to give each user's hives their own subfolder and run `-d` per user. **Lesson:** even within the same toolset by the same author, the flags aren't always consistent. When something doesn't behave, run the tool with no arguments and read the help output.
 
 ### What I would do differently next time
