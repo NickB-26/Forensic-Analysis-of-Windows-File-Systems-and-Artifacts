@@ -54,17 +54,20 @@ This project covers five exercises built around three core artifacts, following 
 
 1. **Download FTK Imager** — From Exterro at [go.exterro.com](https://go.exterro.com). You have to fill in a contact form before it gives you the installer link.
 
+
 <p align="center">
-  <img src="" alt="Exterro FTK Imager 4.7 download form" width="700"><br>
+  <img src="" alt="https://github.com/user-attachments/assets/4e8bbe62-606c-4254-b0ee-bf446f7d7af3" width="700"><br>
   <em>Figure 1: FTK Imager 4.7 download page</em>
 </p>
 
 2. **Install FTK Imager** — InstallShield wizard, default install path (`C:\Program Files\AccessData`). The "Add Installation File path in Windows Defender Exclusion List" option is ticked by default — I left it on because Defender has a habit of interfering with imaging.
 
 <p align="center">
-  <img src="" alt="FTK Imager InstallShield wizard destination folder" width="700"><br>
+  <img src="" alt="https://github.com/user-attachments/assets/70871bc9-5eb7-499c-bd33-cb244ad54f39" width="700"><br>
   <em>Figure 2: Installing FTK Imager</em>
 </p>
+
+
 
 3. **Create the disk image** — **File → Create Disk Image**, picked **Physical Drive** as the source, then the `C:\` partition. For the output I went with **E01** (compressed, splittable, stores hashes inside the image).
 
@@ -76,9 +79,10 @@ This project covers five exercises built around three core artifacts, following 
 4. **Start the acquisition** — FTK Imager streams the source drive to the destination in 1500 MB chunks and shows the elapsed time as it goes.
 
 <p align="center">
-  <img src="" alt="FTK Imager Creating Image progress dialog showing elapsed time 0:07:43" width="700"><br>
+  <img src="" alt="https://github.com/user-attachments/assets/f4ef6a8a-6c37-48d1-8d52-d84604d2f1e3" width="700"><br>
   <em>Figure 4: Image in progress — source <code>C:\</code> → destination <code>E:\</code> (removable USB)</em>
 </p>
+
 
 5. **Verify the image** — When the image finishes, FTK Imager automatically re-reads the output, computes MD5 and SHA1, and compares them against the hashes it stored during acquisition. Got a **Match** on both with no bad blocks, which is what you want to see.
 
